@@ -1,0 +1,17 @@
+Antes de correrlo:
+
+0) Hacer esto en terminal
+    export UID=`id -u`
+    export GID=`id -g`
+    export USER=`whoami`
+
+Opcional: meter en el .bashrc los tres comandos del punto 0
+1) Mirar el dockerfile
+2) Meter los requirements
+3) ejecutar comando 'id' en terminal para saber UID, GID, USER
+4) Modificar .env a gusto 
+
+
+
+
+

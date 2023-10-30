@@ -1,0 +1,45 @@
+version: "3.7"
+
+services:
+  jupyter_lab:
+      
+      env_file:
+        - .env
+      build:
+        context: ./dockerimg
+        dockerfile: ./Dockerfile
+        args:
+          UID: ${UID}
+          GID: ${GID}
+          USER: ${USER}
+         
+      volumes:
+        - ./volume:/home/${USER}/host_data
+     
+
+      ports:
+        - "${JUPYTERLAB_PORT}:8888"
+        # - "8898:8888"
+      expose:
+        # - "8898"
+        - "${JUPYTERLAB_PORT}"
+
+      container_name: ${JUPYTERLAB_CONTAINER_NAME}
+      
+      environment:
+        - JUPYTER_ENABLE_LAB=yes
+        - GRANT_SUDO=yes
+        - NB_UID=${UID}
+        - NB_GID=${GID}
+        - JUPYTER_TOKEN=${JUPYTER_PASSWORD}
+        
+      deploy:
+        replicas: 1
+        resources:
+          reservations:
+            devices:
+             - driver: nvidia
+               capabilities: [gpu]
+
+      # restart: always
+      restart: unless-stopped

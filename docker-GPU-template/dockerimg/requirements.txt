@@ -1,0 +1,12 @@
+pandas
+seaborn
+networkx
+tensorboardX
+hdbscan
+pytorch_lightning
+torchmetrics
+optuna
+SciKit-Learn 
+pymongo 
+bertopic [spacy, vision]
+py2neo
