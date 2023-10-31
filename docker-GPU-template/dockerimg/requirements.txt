@@ -1,12 +1,18 @@
+# PUT THE PACKAGES YOU ARE GOING TO USE FOR SURE HERE #
 pandas
 seaborn
+SciKit-Learn
+
 networkx
+
 tensorboardX
-hdbscan
 pytorch_lightning
 torchmetrics
+
 optuna
-SciKit-Learn 
-pymongo 
-bertopic [spacy, vision]
+
+pymongo
 py2neo
+
+bertopic [spacy, vision]
+hdbscan
