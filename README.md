@@ -1,6 +1,6 @@
 # Folders with some Docker container-templates for running JupypterLab collaborative
 
-##Some intructions:
+## Some intructions:
 
 1. In the host, execute
 ~~~~
