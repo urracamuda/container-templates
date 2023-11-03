@@ -85,6 +85,7 @@ RUN pip3 install torch torchvision torchaudio
 # RUN rm -rf /var/lib/apt/lists/*
 
 USER $USER
+WORKDIR /home/$USER
 
 ### Setting the working directory ###
 WORKDIR /home/$USER
@@ -92,12 +93,16 @@ RUN echo 'export PATH=$PATH:~/.local/bin' >> /home/$USER/.bashrc
 
 #NUEVO 
 RUN pip3 install -U jupyter-resource-usage ipywidgets 
-                    
+RUN python -m ipykernel install --user
+
 ### Place to install other python packages in the requirements.txt file###
 COPY requirements.txt /home/$USER
 RUN pip3 install -r "requirements.txt"
 
-RUN python -m ipykernel install --user
+### Setting the working directory ###
+RUN mkdir /home/$USER/host_data
+WORKDIR /home/$USER/host_data
+RUN echo 'export PATH=$PATH:~/.local/bin' >> /home/$USER/.bashrc
 
 
 ### LIFT-OFF!! ###
