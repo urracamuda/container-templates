@@ -65,6 +65,13 @@ RUN pip3 install -U jedi-language-server
 RUN pip3 install -U python-language-server
 RUN pip3 install -U python-lsp-server
 
+#NUEVO 
+RUN pip3 install -U aquirdturtle_collapsible_headings jupyterlab-code-formatter jupyter_bokeh \
+                    jupyterlab_materialdarker lckr_jupyterlab_variableinspector pylantern \
+                    jupyter-resource-usage
+
+
+
 
 ### PACKAGES ###
 # General pip packages
@@ -79,7 +86,6 @@ RUN pip3 install torch torchvision torchaudio
 COPY requirements.txt /home/$USER
 RUN pip3 install -r requirements.txt
 
-
 ### Cleaning libraries
 # RUN rm -rf /var/lib/apt/lists/*
 
@@ -88,6 +94,8 @@ USER $USER
 ### Setting the working directory ###
 WORKDIR /home/$USER
 RUN echo 'export PATH=$PATH:~/.local/bin' >> /home/$USER/.bashrc
+
+RUN python -m ipykernel install --user
 
 
 ### LIFT-OFF!! ###
