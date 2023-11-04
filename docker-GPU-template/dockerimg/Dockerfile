@@ -1,4 +1,4 @@
-### COURTESY OF ANGEL'S WISDOWS AND 
+### COURTESY OF ANGEL'S (APANIZO) WISDOM AND PATIENCE 
 
 ### BASE IMAGE ###
 # FIRST: check cuda version with: nvidia-smi 
@@ -16,7 +16,7 @@ RUN apt-get update
 # ENV LANG en_US.utf8
 
 # Use zsh in docker console
-# RUN apt-get update
+
 RUN apt-get install -y zsh wget curl
 RUN sh -c "$(wget -O- https://github.com/deluan/zsh-in-docker/releases/download/v1.1.3/zsh-in-docker.sh)"
 ENV SHELL=/bin/zsh
@@ -31,7 +31,6 @@ ARG USER=$USER
 RUN apt-get install sudo
 RUN addgroup --gid $GID $USER
 RUN adduser --disabled-password --shell /usr/bin/bash   --gecos '' --uid $UID --gid $GID $USER
-
 RUN adduser $USER sudo
 RUN echo '%sudo ALL=(ALL) NOPASSWD:ALL' >> /etc/sudoers
 
@@ -50,48 +49,40 @@ RUN python3 -m pip install --upgrade pip
 
 RUN ln -s /usr/bin/python3 /usr/bin/python
 
+### Cleaning libraries
+RUN rm -rf /var/lib/apt/lists/*
 
 
-
-### INSTALL JUPYTER ###
+### INSTALL JUPYTER WITH COLLABORATION, AND PYTHON CODE ASSISTANT ###
 RUN pip3 install jupyter
 RUN pip3 install -U jupyterlab>4.0.6
 RUN pip3 install jupyter-collaboration
 RUN pip3 install -U jupyter_server>2.0.0
 
-
-### OTHER JUPYTER STUFF ###
 RUN pip3 install -U jedi-language-server
 RUN pip3 install -U python-language-server
 RUN pip3 install -U python-lsp-server
-
-
-
-
 
 
 ### PACKAGES ###
 # General pip packages
 RUN pip install --upgrade twine keyrings.alt pynvml fastgpu
 
-
-### INSTALL PYTORCH ### 
+# PYTORCH 
 # INSTRUCTIONS: https://pytorch.org/get-started/previous-versions/
 RUN pip3 install torch torchvision torchaudio
 
 
 
-### Cleaning libraries
-# RUN rm -rf /var/lib/apt/lists/*
+### SWITCHING TO USER AND MOVING FORWARD ###
 
 USER $USER
 WORKDIR /home/$USER
 
-### Setting the working directory ###
-WORKDIR /home/$USER
+### EXPORTING PATH ###
 RUN echo 'export PATH=$PATH:~/.local/bin' >> /home/$USER/.bashrc
 
-#NUEVO 
+# JUPYTER STUFF #2
 RUN pip3 install -U jupyter-resource-usage ipywidgets 
 RUN python -m ipykernel install --user
 
@@ -99,10 +90,10 @@ RUN python -m ipykernel install --user
 COPY requirements.txt /home/$USER
 RUN pip3 install -r "requirements.txt"
 
-### Setting the working directory ###
+### Setting the working directory t omatch in jupyter notebooks ###
 RUN mkdir /home/$USER/host_data
 WORKDIR /home/$USER/host_data
-RUN echo 'export PATH=$PATH:~/.local/bin' >> /home/$USER/.bashrc
+
 
 
 ### LIFT-OFF!! ###
