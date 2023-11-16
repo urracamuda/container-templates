@@ -11,9 +11,10 @@ FROM nvidia/cuda:12.2.2-devel-ubuntu22.04
 RUN apt-get update
 
 # Install locales
-# RUN apt-get update && apt-get install -y locales &&  \
-#	&& localedef -i en_US -c -f UTF-8 -A /usr/share/locale/locale.alias en_US.UTF-8
-# ENV LANG en_US.utf8
+RUN apt-get update && apt-get install -y locales &&  \
+	&& localedef -i en_US -c -f UTF-8 -A /usr/share/locale/locale.alias en_US.UTF-8
+
+ENV LANG en_US.utf8
 
 # Use zsh in docker console
 
@@ -62,6 +63,7 @@ RUN pip3 install -U jupyter_server>2.0.0
 RUN pip3 install -U jedi-language-server
 RUN pip3 install -U python-language-server
 RUN pip3 install -U python-lsp-server
+RUN pip3 install 'python-lsp-server[all]'
 
 
 ### PACKAGES ###
@@ -77,18 +79,20 @@ RUN pip3 install torch torchvision torchaudio
 ### SWITCHING TO USER AND MOVING FORWARD ###
 
 USER $USER
-WORKDIR /home/$USER
+
 
 ### EXPORTING PATH ###
 RUN echo 'export PATH=$PATH:~/.local/bin' >> /home/$USER/.bashrc
 
 # JUPYTER STUFF #2
-RUN pip3 install -U jupyter-resource-usage ipywidgets 
+RUN pip3 install -U jupyter-resource-usage ipywidgets aquirdturtle_collapsible_headings lckr_jupyterlab_variableinspector
+
 RUN python -m ipykernel install --user
+
 
 ### Place to install other python packages in the requirements.txt file###
 COPY requirements.txt /home/$USER
-RUN pip3 install -r "requirements.txt"
+RUN pip3 install -r "/home/$USER/requirements.txt"
 
 ### Setting the working directory t omatch in jupyter notebooks ###
 RUN mkdir /home/$USER/host_data
