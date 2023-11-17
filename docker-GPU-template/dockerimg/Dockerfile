@@ -85,7 +85,7 @@ USER $USER
 RUN echo 'export PATH=$PATH:~/.local/bin' >> /home/$USER/.bashrc
 
 # JUPYTER STUFF #2
-RUN pip3 install -U jupyter-resource-usage ipywidgets aquirdturtle_collapsible_headings lckr_jupyterlab_variableinspector
+RUN pip3 install -U jupyter-resource-usage ipywidgets lckr_jupyterlab_variableinspector
 
 RUN python -m ipykernel install --user
 
