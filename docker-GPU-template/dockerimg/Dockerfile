@@ -12,16 +12,14 @@ RUN apt-get update
 
 # Install locales
 
-RUN apt-get install -y locales && \
-	localedef -i en_US -c -f UTF-8 -A /usr/share/locale/locale.alias en_US.UTF-8
-
+RUN apt-get update && apt-get install -y locales \
+	&& localedef -i en_US -c -f UTF-8 -A /usr/share/locale/locale.alias en_US.UTF-8
 ENV LANG en_US.utf8
 
 # Use zsh in docker console
 
 RUN apt-get install -y zsh wget curl
 RUN sh -c "$(wget -O- https://github.com/deluan/zsh-in-docker/releases/download/v1.1.3/zsh-in-docker.sh)"
-ENV SHELL=/bin/zsh
 RUN sed -i '/^ZSH_THEME/c\ZSH_THEME="agnoster"' ~/.zshrc
 
 # Giving root permissions to $USER
@@ -90,12 +88,21 @@ RUN echo 'export PATH=$PATH:~/.local/bin' >> /home/$USER/.bashrc
 RUN pip3 install -U jupyter-resource-usage ipywidgets lckr_jupyterlab_variableinspector \
 					jlab-enhanced-launcher jupyterlab-spellchecker jupyterlab-spreadsheet-editor
 RUN python -m ipykernel install --user
-RUN python -m ipykernel install --user
+
 
 
 ### Place to install other python packages in the requirements.txt file###
 COPY requirements.txt /home/$USER
 RUN pip3 install -r "/home/$USER/requirements.txt"
+
+# Add the user settings. These should be copied by child images to the user folders
+ADD .jupyter/lab/user-settings /.jupyter/lab/user-settings
+ADD .jupyter/lab/user-settings/@jupyterlab/apputils-extension/themes.jupyterlab-settings /.jupyter/lab/user-settings/@jupyterlab/apputils-extension/themes.jupyterlab-settings
+
+
+ENV SHELL=/bin/zsh
+
+
 
 ### Setting the working directory t omatch in jupyter notebooks ###
 RUN mkdir /home/$USER/host_data
