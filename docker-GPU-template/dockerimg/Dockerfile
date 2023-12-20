@@ -85,8 +85,10 @@ USER $USER
 RUN echo 'export PATH=$PATH:~/.local/bin' >> /home/$USER/.bashrc
 
 # JUPYTER STUFF #2
-RUN pip3 install -U jupyter-resource-usage ipywidgets lckr_jupyterlab_variableinspector
 
+RUN pip3 install -U jupyter-resource-usage ipywidgets lckr_jupyterlab_variableinspector \
+					jlab-enhanced-launcher jupyterlab-spellchecker jupyterlab-spreadsheet-editor
+RUN python -m ipykernel install --user
 RUN python -m ipykernel install --user
 
 
