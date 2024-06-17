@@ -79,24 +79,28 @@ RUN pip3 install torch torchvision torchaudio
 
 USER $USER
 
-
 ### EXPORTING PATH ###
 RUN echo 'export PATH=$PATH:~/.local/bin' >> /home/$USER/.bashrc
 
 # JUPYTER STUFF #2
 
 RUN pip3 install -U jupyter-resource-usage ipywidgets lckr_jupyterlab_variableinspector \
-					jupyterlab-spellchecker jupyterlab_execute_time
+			jupyterlab-spellchecker jupyterlab_execute_time \
+   			aquirdturtle_collapsible_headings jupyter-resource-usage
+
+RUN pip install -U ydata-profiling[notebook,unicode,pyspark]
+   
 RUN python -m ipykernel install --user
 
+# Add the user settings. These should be copied by child images to the user folders
+ADD .jupyter/lab/user-settings/@jupyterlab/apputils-extension/themes.jupyterlab-settings /.jupyter/lab/user-settings/@jupyterlab/apputils-extension/themes.jupyterlab-settings
 
 
 ### Place to install other python packages in the requirements.txt file###
 COPY requirements.txt /home/$USER
 RUN pip3 install -r "/home/$USER/requirements.txt"
 
-# Add the user settings. These should be copied by child images to the user folders
-ADD .jupyter/lab/user-settings/@jupyterlab/apputils-extension/themes.jupyterlab-settings /.jupyter/lab/user-settings/@jupyterlab/apputils-extension/themes.jupyterlab-settings
+
 
 
 ENV SHELL=/bin/zsh
