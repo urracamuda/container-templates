@@ -96,7 +96,6 @@ COPY requirements.txt /home/$USER
 RUN pip3 install -r "/home/$USER/requirements.txt"
 
 # Add the user settings. These should be copied by child images to the user folders
-ADD .jupyter/lab/user-settings /.jupyter/lab/user-settings
 ADD .jupyter/lab/user-settings/@jupyterlab/apputils-extension/themes.jupyterlab-settings /.jupyter/lab/user-settings/@jupyterlab/apputils-extension/themes.jupyterlab-settings
 
 
