@@ -93,7 +93,7 @@ RUN pip install -U ydata-profiling[notebook,unicode,pyspark]
 RUN python -m ipykernel install --user
 
 # Add the user settings. These should be copied by child images to the user folders
-ADD .jupyter/lab/user-settings/@jupyterlab/apputils-extension/themes.jupyterlab-settings /.jupyter/lab/user-settings/@jupyterlab/apputils-extension/themes.jupyterlab-settings
+# ADD .jupyter/lab/user-settings/@jupyterlab/apputils-extension/themes.jupyterlab-settings /.jupyter/lab/user-settings/@jupyterlab/apputils-extension/themes.jupyterlab-settings
 
 
 ### Place to install other python packages in the requirements.txt file###
