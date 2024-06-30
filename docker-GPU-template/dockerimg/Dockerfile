@@ -87,7 +87,7 @@ RUN echo 'export PATH=$PATH:~/.local/bin' >> /home/$USER/.bashrc
 RUN pip3 install -U jupyter-resource-usage ipywidgets lckr_jupyterlab_variableinspector \
 			jupyterlab-spellchecker jupyterlab_execute_time
 
-RUN pip install -U ydata-profiling[notebook,unicode,pyspark]
+# RUN pip install -U ydata-profiling[notebook,unicode,pyspark]
    
 RUN python -m ipykernel install --user
 
